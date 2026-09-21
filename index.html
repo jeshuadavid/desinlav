@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DESINLAV | Lavado y Desinfección de Tinacos, Cisternas y Calentadores Solares</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        desinblue: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        watercyan: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .before-after-container {
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+            touch-action: pan-y;
+        }
+        .before-img-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 50%;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background-color: #ffffff;
+            z-index: 20;
+            transform: translateX(-50%);
+            cursor: ew-resize;
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        }
+        .slider-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #0284c7;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border: 2px solid white;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3">
+                    <img src="imagenes/logo.jpg.jpeg" data-local-src="WhatsApp Image 2026-09-12 at 12.58.45 PM.jpeg" alt="Logo DESINLAV" class="w-14 h-14 object-contain rounded-full border-2 border-desinblue-500 shadow-md">
+                    <div>
+                        <span class="text-2xl font-black tracking-wider text-desinblue-900 block leading-none">DESINLAV</span>
+                        <span class="text-xs font-semibold text-watercyan-600 tracking-widest uppercase">Soluciones a tu medida</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-700">
+                    <a href="#nosotros" class="hover:text-desinblue-600 transition-colors">Nosotros</a>
+                    <a href="#proceso" class="hover:text-desinblue-600 transition-colors">Procesos</a>
+                    <a href="#comparativa" class="hover:text-desinblue-600 transition-colors">Antes y Después</a>
+                    <a href="#precios" class="hover:text-desinblue-600 transition-colors">Costos</a>
+                    <a href="#filtros" class="hover:text-desinblue-600 transition-colors">Filtros</a>
+                    <a href="#cobertura" class="hover:text-desinblue-600 transition-colors">Cobertura</a>
+                </nav>
+
+                <!-- Quick Action Buttons -->
+                <div class="hidden sm:flex items-center space-x-3">
+                    <a href="https://wa.me/527223551097?text=Hola%20DESINLAV,%20me%20gustaría%20solicitar%20una%20cotización" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md shadow-emerald-600/20 hover:scale-[1.02]">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <div class="flex flex-col text-right text-xs">
+                        <a href="tel:+527223551097" class="font-bold text-desinblue-800 hover:underline"><i class="fa-solid fa-phone mr-1"></i>722 355 1097</a>
+                        <a href="tel:+527225567739" class="font-bold text-desinblue-600 hover:underline"><i class="fa-solid fa-phone mr-1"></i>722 556 7739</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" type="button" class="text-slate-600 hover:text-slate-900 focus:outline-none p-2 rounded-lg" aria-label="Abrir menú">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3">
+            <a href="#nosotros" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50">Nosotros</a>
+            <a href="#proceso" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50">Procesos</a>
+            <a href="#comparativa" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50">Antes y Después</a>
+            <a href="#precios" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50">Costos</a>
+            <a href="#filtros" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50">Filtros</a>
+            <a href="#cobertura" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50">Cobertura</a>
+            <div class="pt-2 flex flex-col gap-2">
+                <a href="https://wa.me/527223551097?text=Hola%20DESINLAV,%20me%20gustaría%20solicitar%20una%20cotización" target="_blank" class="w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-md">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>Contactar por WhatsApp</span>
+                </a>
+                <a href="https://www.facebook.com/share/1RsTEG2vcZ/" target="_blank" class="w-full text-center bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-facebook text-xl"></i>
+                    <span>Ver en Facebook</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="relative bg-gradient-to-b from-desinblue-900 via-desinblue-800 to-slate-900 text-white py-20 lg:py-28 overflow-hidden">
+            <!-- Decorative background glows -->
+            <div class="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-watercyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 -mb-12 -ml-12 w-96 h-96 bg-desinblue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 bg-watercyan-500/10 border border-watercyan-400/30 text-watercyan-400 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Servicio Profesional y Garantizado</span>
+                        </div>
+                        
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                            Agua limpia y pura para tu hogar con <span class="bg-gradient-to-r from-watercyan-400 to-sky-200 bg-clip-text text-transparent">DESINLAV</span>
+                        </h1>
+                        
+                        <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                            Especialistas en limpieza y desinfección profunda de <strong>tinacos, cisternas y calentadores solares</strong>. Protegemos tu salud con productos no alcalinos de grado alimenticio.
+                        </p>
+
+                        <div class="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <a href="https://wa.me/527223551097?text=Hola%20DESINLAV,%20quiero%20agendar%20un%20servicio%20de%20lavado" target="_blank" class="inline-flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-emerald-500/30 hover:scale-105 transition-all">
+                                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                                <span>Agendar Servicio</span>
+                            </a>
+                            <a href="#precios" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-4 rounded-xl font-semibold text-lg border border-white/20 transition-all">
+                                <i class="fa-solid fa-calculator"></i>
+                                <span>Ver Tarifas</span>
+                            </a>
+                        </div>
+
+                        <!-- Highlights Pills -->
+                        <div class="pt-6 grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-slate-800 text-left">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-desinblue-500/20 text-watercyan-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-vial-circle-check"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white">Grado Alimenticio</h4>
+                                    <p class="text-xs text-slate-400">Sin químicos dañinos</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-desinblue-500/20 text-watercyan-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-shield-virus"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white">Cuida la Capa</h4>
+                                    <p class="text-xs text-slate-400">Protege capa antibacterial</p>
+                                </div>
+                            </div>
+                            <div class="col-span-2 sm:col-span-1 flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-desinblue-500/20 text-watercyan-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-solar-panel"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white">Sin Rayaduras</h4>
+                                    <p class="text-xs text-slate-400">Cuidado para tubos solares</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Hero Graphic / Badge Card -->
+                    <div class="lg:col-span-5">
+                        <div class="relative mx-auto max-w-md bg-gradient-to-br from-slate-800 to-desinblue-950 p-6 rounded-3xl border border-slate-700/60 shadow-2xl">
+                            <!-- Visual Graphic with Official Logo -->
+                            <div class="relative h-64 rounded-2xl overflow-hidden bg-slate-900 mb-6 group flex items-center justify-center p-4">
+                                <img src="imagenes/logo.jpg.jpeg" data-local-src="WhatsApp Image 2026-09-12 at 12.58.45 PM.jpeg" alt="Logo Oficial DESINLAV" class="max-h-full max-w-full object-contain rounded-full shadow-2xl border-4 border-watercyan-400/40 group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute bottom-2 left-4 right-4 text-center">
+                                    <span class="bg-desinblue-600/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full inline-block shadow">DESINLAV - Soluciones a tu medida</span>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-slate-800/80 rounded-xl border border-slate-700">
+                                    <span class="text-sm text-slate-300 font-medium"><i class="fa-solid fa-location-dot text-rose-400 mr-2"></i>Cobertura:</span>
+                                    <span class="text-xs font-bold text-watercyan-400 bg-watercyan-950/60 px-3 py-1 rounded-full border border-watercyan-800/50">Toluca, Metepec y más</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-slate-800/80 rounded-xl border border-slate-700">
+                                    <span class="text-sm text-slate-300 font-medium"><i class="fa-solid fa-phone text-emerald-400 mr-2"></i>Teléfonos:</span>
+                                    <span class="text-xs font-extrabold text-white">722 355 1097 / 722 556 7739</span>
+                                </div>
+                                <a href="https://www.facebook.com/share/1RsTEG2vcZ/" target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-sm transition-colors">
+                                    <i class="fa-brands fa-facebook text-lg"></i>
+                                    <span>Síguenos en Facebook</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About / Description Section -->
+        <section id="nosotros" class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center space-y-4">
+                    <span class="text-desinblue-600 font-bold uppercase tracking-wider text-sm">¿Por qué elegirnos?</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Nuestro compromiso con la calidad de tu agua</h2>
+                    <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+                        Nuestro servicio es un <strong>trabajo profesional y garantizado</strong> con productos especiales para depósitos de agua <strong>no alcalinos de grado alimenticio</strong>. Cuidamos cada detalle técnico de tus instalaciones:
+                    </p>
+                </div>
+
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200/80 hover:shadow-xl transition-all group">
+                        <div class="w-14 h-14 bg-desinblue-100 text-desinblue-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-desinblue-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-shield-heart"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Capa Antibacterial Intacta</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            No dañamos la capa antibacterial interior de sus tinacos ni cisternas. Empleamos cepillos de cerda suave y limpiadores no agresivos.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200/80 hover:shadow-xl transition-all group">
+                        <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-sun"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Protección a Tubos Solares</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            No rayamos ni maltratamos los tubos de borosilicato de los calentadores solares durante la extracción y lavado a presión.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200/80 hover:shadow-xl transition-all group">
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Equipamiento Técnico</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Contamos con bombas sumergibles de alto flujo, aspiradoras de lodos y agua, y equipos de agua a presión para una limpieza exhaustiva.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section id="proceso" class="py-16 bg-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-desinblue-600 font-bold uppercase tracking-wider text-sm">Metodología Paso a Paso</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1">¿Cómo realizamos nuestro trabajo?</h2>
+                    <p class="text-slate-600 mt-3">Transparencia y rigurosidad técnica en cada paso del proceso de lavado.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    
+                    <!-- Steps for Tinaco y Cisterna -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-4 mb-6 pb-4 border-b border-slate-100">
+                                <div class="w-12 h-12 bg-desinblue-600 text-white rounded-xl flex items-center justify-center text-2xl font-bold">
+                                    <i class="fa-solid fa-faucet-drip"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-slate-900">Tinaco y Cisterna</h3>
+                                    <p class="text-xs text-desinblue-600 font-semibold uppercase">6 Pasos para desinfección total</p>
+                                </div>
+                            </div>
+
+                            <ol class="space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-desinblue-100 text-desinblue-700 font-bold rounded-full flex items-center justify-center text-xs">1</span>
+                                    <p class="text-slate-700 text-sm"><strong class="text-slate-900">Drenado:</strong> Se drena el tinaco o cisterna rápidamente utilizando bomba de agua especializada.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-desinblue-100 text-desinblue-700 font-bold rounded-full flex items-center justify-center text-xs">2</span>
+                                    <p class="text-slate-700 text-sm"><strong class="text-slate-900">Aspirado inicial:</strong> Se aspira toda la suciedad, sedimentos y lodos acumulados en el fondo.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-desinblue-100 text-desinblue-700 font-bold rounded-full flex items-center justify-center text-xs">3</span>
+                                    <p class="text-slate-700 text-sm"><strong class="text-slate-900">Desinfección:</strong> Se aplica el producto especial de lavado y desinfección de grado alimenticio.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-desinblue-100 text-desinblue-700 font-bold rounded-full flex items-center justify-center text-xs">4</span>
+                                    <p class="text-slate-700 text-sm"><strong class="text-slate-900">Enjuague:</strong> Se enjuaga profundamente el tinaco con agua limpia a presión.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-desinblue-100 text-desinblue-700 font-bold rounded-full flex items-center justify-center text-xs">5</span>
+                                    <p class="text-slate-700 text-sm"><strong class="text-slate-900">Aspirado final:</strong> Se vuelve a aspirar completamente el agua de enjuague para no dejar residuos.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-desinblue-100 text-desinblue-700 font-bold rounded-full flex items-center justify-center text-xs">6</span>
+                                    <p class="text-slate-700 text-sm"><strong class="text-slate-900">Limpieza de accesorios:</strong> Por último se lava detalladamente la tapa y el flotador del mismo.</p>
+                                </li>
+                            </ol>
+                        </div>
+                        <div class="mt-8 pt-4 border-t border-slate-100">
+                            <span class="text-xs text-slate-500 italic"><i class="fa-solid fa-circle-info mr-1"></i> Garantiza la remoción de bacterias, sarro y sedimentos orgánicos.</span>
+                        </div>
+                    </div>
+
+                    <!-- Steps for Calentador Solar -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200/80 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-4 mb-6 pb-4 border-b border-slate-100">
+                                <div class="w-12 h-12 bg-amber-500 text-white rounded-xl flex items-center justify-center text-2xl font-bold">
+                                    <i class="fa-solid fa-solar-panel"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-slate-900">Calentador Solar</h3>
+                                    <p class="text-xs text-amber-600 font-semibold uppercase">4 Pasos de mantenimiento profundo</p>
+                                </div>
+                            </div>
+
+                            <ol class="space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-amber-100 text-amber-800 font-bold rounded-full flex items-center justify-center text-xs">1</span>
+                                    <p class="text-slate-700 text-sm"><strong class="text-slate-900">Drenado:</strong> Se drena completamente el tanque del sistema solar.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-amber-100 text-amber-800 font-bold rounded-full flex items-center justify-center text-xs">2</span>
+                                    <p class="text-slate-700 text-sm"><strong class="text-slate-900">Lavado de tubos:</strong> Se quitan los tubos uno por uno y se lavan cuidadosamente con nuestro producto y agua a presión.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-amber-100 text-amber-800 font-bold rounded-full flex items-center justify-center text-xs">3</span>
+                                    <p class="text-slate-700 text-sm"><strong class="text-slate-900">Lavado de termotanque:</strong> Se quita el termotanque y, al igual que los tubos, se desinfecta internamente y se lava con agua a presión.</p>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-amber-100 text-amber-800 font-bold rounded-full flex items-center justify-center text-xs">4</span>
+                                    <p class="text-slate-700 text-sm"><strong class="text-slate-900">Reensamblado completo:</strong> Se vuelve a colocar todo el equipo de forma segura comprobando que no existan fugas.</p>
+                                </li>
+                            </ol>
+                        </div>
+                        <div class="mt-8 pt-4 border-t border-slate-100">
+                            <span class="text-xs text-slate-500 italic"><i class="fa-solid fa-circle-info mr-1"></i> Restaura la eficiencia térmica del equipo eliminando acumulaciones de sarro.</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Before & After Comparison Section -->
+        <section id="comparativa" class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="text-desinblue-600 font-bold uppercase tracking-wider text-sm">Resultados Reales</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Nuestros Trabajos Realizados</h2>
+                    <p class="text-slate-600 mt-2">Evidencia fotográfica del antes y después en tinacos, cisternas, flotadores y calentadores solares.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    
+                    <!-- Real Image Card 1: Tinaco y Cisterna -->
+                    <div class="bg-slate-50 rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-droplet text-desinblue-600 mr-2"></i>Tinaco, Cisterna y Flotador</h3>
+                                <span class="text-xs bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-bold">Antes y Después</span>
+                            </div>
+                            
+                            <div class="relative rounded-2xl overflow-hidden bg-slate-900 shadow-md border border-slate-200">
+                                <img src="imagenes/tinacos.jpg.jpeg" data-local-src="WhatsApp Image 2026-09-12 at 12.53.55 PM.jpeg" alt="Antes y después de lavado de tinacos, cisternas y flotadores DESINLAV" class="w-full h-auto object-cover hover:scale-[1.02] transition-transform duration-300">
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-500 mt-4 text-center italic">
+                            <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Remoción completa de capas de sedimento, lodo y sarro en depósitos y flotadores.
+                        </p>
+                    </div>
+
+                    <!-- Real Image Card 2: Calentador Solar -->
+                    <div class="bg-slate-50 rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-sun text-amber-500 mr-2"></i>Calentador Solar</h3>
+                                <span class="text-xs bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-bold">Antes y Después</span>
+                            </div>
+                            
+                            <div class="relative rounded-2xl overflow-hidden bg-slate-900 shadow-md border border-slate-200">
+                                <img src="imagenes/calentadores.jpg.jpeg" data-local-src="WhatsApp Image 2026-09-12 at 12.53.55 PM (1).jpeg" alt="Antes y después de mantenimiento a calentador solar DESINLAV" class="w-full h-auto object-cover hover:scale-[1.02] transition-transform duration-300">
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-500 mt-4 text-center italic">
+                            <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> Desmontaje y lavado profundo tubo por tubo y termotanque para recuperar eficiencia.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="precios" class="py-16 bg-gradient-to-b from-slate-900 to-desinblue-950 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-watercyan-400 font-bold uppercase tracking-wider text-sm">Precios Claros y Justos</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Tarifas del Servicio</h2>
+                    <p class="text-slate-300 mt-2">Valores transparentes sin cobros ocultos para todo Valle de Toluca.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+                    
+                    <!-- Pricing Card 1: Lavado y Desinfección -->
+                    <div class="bg-slate-800/80 rounded-3xl p-8 border border-slate-700 flex flex-col justify-between hover:border-watercyan-500/50 transition-all">
+                        <div>
+                            <div class="inline-block bg-desinblue-500/20 text-watercyan-300 font-bold text-xs px-3 py-1 rounded-full mb-4">
+                                Servicio Principal
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Lavado de Tinaco / Cisterna</h3>
+                            <p class="text-slate-400 text-sm mb-6">Dependiendo del nivel de contaminación y dimensiones del depósito.</p>
+
+                            <div class="my-4">
+                                <span class="text-4xl font-black text-white">$600</span>
+                                <span class="text-xl font-medium text-slate-400"> a </span>
+                                <span class="text-4xl font-black text-watercyan-400">$1,200</span>
+                                <span class="text-xs text-slate-400 block mt-1">MXN / por depósito</span>
+                            </div>
+
+                            <ul class="space-y-3 mt-6 text-sm text-slate-300">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Drenado con bomba potente</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Aspirado profundo de sedimentos</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Sanitizante grado alimenticio</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Lavado de tapa y flotador</li>
+                            </ul>
+                        </div>
+
+                        <a href="https://wa.me/527223551097?text=Hola%20DESINLAV,%20quiero%20cotizar%20el%20lavado%20de%20mi%20tinaco/cisterna" target="_blank" class="mt-8 w-full bg-desinblue-600 hover:bg-desinblue-500 text-white font-bold py-3.5 rounded-xl text-center transition-colors shadow-lg">
+                            Cotizar Mi Depósito
+                        </a>
+                    </div>
+
+                    <!-- Pricing Card 2: Cotización Individual -->
+                    <div class="bg-slate-800/80 rounded-3xl p-8 border border-slate-700 flex flex-col justify-between hover:border-watercyan-500/50 transition-all">
+                        <div>
+                            <div class="inline-block bg-amber-500/20 text-amber-300 font-bold text-xs px-3 py-1 rounded-full mb-4">
+                                Visita Técnica
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Cotización Presencial</h3>
+                            <p class="text-slate-400 text-sm mb-6">En caso de requerir únicamente una inspección previa.</p>
+
+                            <div class="my-4">
+                                <span class="text-4xl font-black text-white">$200</span>
+                                <span class="text-xs text-slate-400 block mt-1">MXN por visita técnica</span>
+                            </div>
+
+                            <ul class="space-y-3 mt-6 text-sm text-slate-300">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Revisión de estado de tinaco/cisterna</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Diagnóstico de calentador solar</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Asesoría de instalación de filtro</li>
+                            </ul>
+                        </div>
+
+                        <a href="https://wa.me/527223551097?text=Hola%20DESINLAV,%20solicito%20una%20visita%20de%20cotizacion%20($200)" target="_blank" class="mt-8 w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3.5 rounded-xl text-center transition-colors">
+                            Solicitar Visita
+                        </a>
+                    </div>
+
+                    <!-- Pricing Card 3: Filtros de Agua -->
+                    <div id="filtros" class="bg-gradient-to-b from-desinblue-800 to-desinblue-900 rounded-3xl p-8 border-2 border-watercyan-400 shadow-xl flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute -right-8 -top-8 w-24 h-24 bg-watercyan-400/20 rounded-full blur-xl"></div>
+                        
+                        <div>
+                            <div class="inline-block bg-watercyan-400 text-slate-900 font-extrabold text-xs px-3 py-1 rounded-full mb-4">
+                                <i class="fa-solid fa-filter mr-1"></i> Instalación de Filtros
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">Filtros de Agua</h3>
+                            <p class="text-slate-200 text-sm mb-4">Agua más segura para toda la casa.</p>
+
+                            <div class="rounded-xl overflow-hidden mb-4 border border-watercyan-500/40">
+                                <img src="imagenes/filtros.jpg.jpeg" data-local-src="WhatsApp Image 2026-09-12 at 12.53.55 PM (2)_2.jpeg" alt="Ejemplos de instalación de filtros de agua DESINLAV" class="w-full h-48 object-cover object-center">
+                            </div>
+
+                            <div class="space-y-3 my-4 bg-slate-900/80 p-4 rounded-2xl border border-desinblue-700">
+                                <div>
+                                    <span class="text-xs text-slate-400 uppercase font-semibold block">Con Material Incluido (DESINLAV)</span>
+                                    <span class="text-3xl font-extrabold text-watercyan-400">$2,000 <span class="text-sm font-normal text-slate-300">MXN</span></span>
+                                </div>
+                                <div class="border-t border-slate-800 pt-2">
+                                    <span class="text-xs text-slate-400 uppercase font-semibold block">Si Tú Proporcionas el Material</span>
+                                    <span class="text-2xl font-bold text-white">$1,200 <span class="text-sm font-normal text-slate-300">MXN</span></span>
+                                </div>
+                            </div>
+
+                            <div class="bg-amber-500/10 border border-amber-500/30 p-3 rounded-xl text-xs text-amber-200 flex items-start gap-2">
+                                <i class="fa-solid fa-store text-amber-400 text-base flex-shrink-0 mt-0.5"></i>
+                                <span><strong>Contamos con repuestos:</strong> También disponemos de tapas y cartuchos de filtro de repuesto.</span>
+                            </div>
+                        </div>
+
+                        <a href="https://wa.me/527223551097?text=Hola%20DESINLAV,%20estoy%20interesado%20en%20la%20instalacion%20de%20filtros" target="_blank" class="mt-6 w-full bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold py-3.5 rounded-xl text-center transition-all shadow-lg shadow-emerald-600/30">
+                            Instalar Mi Filtro
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Service Coverage Area Section -->
+        <section id="cobertura" class="py-16 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-200/80">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-6 space-y-4">
+                            <span class="text-desinblue-600 font-bold uppercase tracking-wider text-sm">Zona de Atención</span>
+                            <h2 class="text-3xl font-extrabold text-slate-900">Servicio a domicilio rápido en tu municipio</h2>
+                            <p class="text-slate-600 text-base leading-relaxed">
+                                Hacemos servicio garantizado en <strong>Toluca, Metepec, Zinacantepec, Lerma y áreas alrededores</strong>. Contáctanos para consultar disponibilidad inmediata en tu colonia o fraccionamiento.
+                            </p>
+
+                            <div class="flex flex-wrap gap-2 pt-2">
+                                <span class="bg-desinblue-50 text-desinblue-800 border border-desinblue-200 px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-location-dot text-desinblue-600"></i> Toluca
+                                </span>
+                                <span class="bg-desinblue-50 text-desinblue-800 border border-desinblue-200 px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-location-dot text-desinblue-600"></i> Metepec
+                                </span>
+                                <span class="bg-desinblue-50 text-desinblue-800 border border-desinblue-200 px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-location-dot text-desinblue-600"></i> Zinacantepec
+                                </span>
+                                <span class="bg-desinblue-50 text-desinblue-800 border border-desinblue-200 px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-location-dot text-desinblue-600"></i> Lerma
+                                </span>
+                                <span class="bg-slate-100 text-slate-700 border border-slate-300 px-4 py-2 rounded-xl font-semibold text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-plus text-slate-500"></i> Alrededores
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-6">
+                            <div class="bg-gradient-to-tr from-desinblue-900 to-desinblue-700 p-8 rounded-2xl text-white shadow-xl flex flex-col items-center text-center space-y-4">
+                                <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-3xl text-watercyan-400">
+                                    <i class="fa-solid fa-headset"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold">¿Tienes dudas o necesitas agendar?</h3>
+                                <p class="text-slate-200 text-sm max-w-md">
+                                    Respuestas inmediatas a través de nuestro canal directo de atención al cliente.
+                                </p>
+                                <div class="pt-2 w-full flex flex-col sm:flex-row gap-3 justify-center">
+                                    <a href="https://wa.me/527223551097?text=Hola%20DESINLAV,%20quisiera%20consultar%20cobertura" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+                                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                                        <span>+52 722 355 1097</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact CTA Banner Section -->
+        <section class="py-16 bg-desinblue-900 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+                <h2 class="text-3xl sm:text-4xl font-extrabold">Mantén la higiene del agua en tu hogar</h2>
+                <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+                    Contáctanos hoy mismo por WhatsApp o visita nuestro perfil oficial en Facebook para consultar promociones activas.
+                </p>
+
+                <div class="pt-4 flex flex-wrap justify-center gap-4">
+                    <a href="https://wa.me/527223551097?text=Hola%20DESINLAV,%20deseo%20agendar%20un%20servicio" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-3 shadow-lg transition-transform hover:scale-105">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                        <span>Enviar WhatsApp (+52 722 355 1097)</span>
+                    </a>
+                    
+                    <a href="https://www.facebook.com/share/1RsTEG2vcZ/" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-3 shadow-lg transition-transform hover:scale-105">
+                        <i class="fa-brands fa-facebook text-2xl"></i>
+                        <span>Visitar Página de Facebook</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 pb-8 border-b border-slate-900">
+                
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-desinblue-600 flex items-center justify-center text-white">
+                            <i class="fa-solid fa-droplet text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-black text-white tracking-wider">DESINLAV</span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Servicio profesional y garantizado de desinfección de depósitos de agua y mantenimiento de sistemas solares térmicos.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4">Servicios</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#proceso" class="hover:text-watercyan-400 transition-colors">Lavado de Tinacos y Cisternas</a></li>
+                        <li><a href="#proceso" class="hover:text-watercyan-400 transition-colors">Limpieza de Calentadores Solares</a></li>
+                        <li><a href="#filtros" class="hover:text-watercyan-400 transition-colors">Instalación de Filtros de Agua</a></li>
+                        <li><a href="#filtros" class="hover:text-watercyan-400 transition-colors">Venta de Tapas y Repuestos</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4">Contacto Directo</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-watercyan-400"></i>
+                            <a href="tel:+527223551097" class="hover:text-white">+52 722 355 1097</a> / <a href="tel:+527225567739" class="hover:text-white">+52 722 556 7739</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+                            <a href="https://wa.me/527223551097" target="_blank" class="hover:text-white">Mensaje directo por WhatsApp</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-brands fa-facebook text-blue-400"></i>
+                            <a href="https://www.facebook.com/share/1RsTEG2vcZ/" target="_blank" class="hover:text-white">Página Oficial Facebook</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-rose-400"></i>
+                            <span>Toluca, Metepec, Zinacantepec, Lerma y alrededores</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+                <p>&copy; <span id="year"></span> DESINLAV. Todos los derechos reservados.</p>
+                <p>Servicio Profesional con Productos de Grado Alimenticio</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Auto-detect if local WhatsApp images exist when opened locally
+            document.querySelectorAll('img[data-local-src]').forEach(img => {
+                const localPath = img.getAttribute('data-local-src');
+                const testImg = new Image();
+                testImg.onload = () => { img.src = localPath; };
+                testImg.src = localPath;
+            });
+
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close menu when clicking links
+                const links = mobileMenu.querySelectorAll('a');
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+
+            // Before & After Interactive Sliders logic
+            function setupSlider(containerId) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+
+                const wrapper = container.querySelector('.before-img-wrapper');
+                const handle = container.querySelector('.slider-handle');
+
+                let isSliding = false;
+
+                function setPosition(x) {
+                    const rect = container.getBoundingClientRect();
+                    let positionX = x - rect.left;
+
+                    if (positionX < 0) positionX = 0;
+                    if (positionX > rect.width) positionX = rect.width;
+
+                    const percentage = (positionX / rect.width) * 100;
+                    wrapper.style.width = `${percentage}%`;
+                    handle.style.left = `${percentage}%`;
+                }
+
+                // Mouse Events
+                container.addEventListener('mousedown', (e) => {
+                    isSliding = true;
+                    setPosition(e.clientX);
+                });
+
+                window.addEventListener('mouseup', () => {
+                    isSliding = false;
+                });
+
+                window.addEventListener('mousemove', (e) => {
+                    if (!isSliding) return;
+                    setPosition(e.clientX);
+                });
+
+                // Touch Events for Mobile
+                container.addEventListener('touchstart', (e) => {
+                    isSliding = true;
+                    if (e.touches[0]) setPosition(e.touches[0].clientX);
+                });
+
+                window.addEventListener('touchend', () => {
+                    isSliding = false;
+                });
+
+                window.addEventListener('touchmove', (e) => {
+                    if (!isSliding) return;
+                    if (e.touches[0]) setPosition(e.touches[0].clientX);
+                });
+            }
+
+            // Initialize both comparison sliders
+            setupSlider('slider-tinaco');
+            setupSlider('slider-solar');
+        });
+    </script>
+</body>
+</html>
